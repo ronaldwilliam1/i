@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score TRX</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles-with-chat.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <img src="images/logo.png" alt="El Juego del TRX" height="40">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#juegos">Juegos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#chat">Chat</a>
+                    </li>
+                </ul>
+                <a href="login.html">
+                <button class="btn btn-outline-neon ms-3">Iniciar Sesión</button>
+                <button class="btn btn-neon ms-2" id="chatToggle"></a>
+                
+                    <i class="fas fa-comments"></i>
+                    
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Widget -->
+    <div id="chatWidget" class="chat-widget">
+        <div class="chat-header">
+            <div class="chat-title">
+                <i class="fas fa-comments me-2"></i>
+                Chat de Jugadores
+            </div>
+            <div class="chat-controls">
+                <button class="btn-minimize" id="chatMinimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="btn-close-chat" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chat-body">
+            <div class="chat-tabs">
+                <button class="chat-tab active" data-room="general">
+                    <i class="fas fa-globe"></i> General
+                </button>
+                <button class="chat-tab" data-room="arcade-blitz">
+                    <i class="fas fa-gamepad"></i> Arcade Blitz
+                </button>
+                <button class="chat-tab" data-room="stack-duel">
+                    <i class="fas fa-cubes"></i> Stack Duel
+                </button>
+                <button class="chat-tab" data-room="mind-flip">
+                    <i class="fas fa-brain"></i> Mind Flip
+                </button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Los mensajes se cargarán dinámicamente -->
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username" id="currentUsername">Jugador123</span>
+                    <span class="user-status online">
+                        <i class="fas fa-circle"></i>
+                    </span>
+                </div>
+                <div class="chat-input-wrapper">
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Escribe tu mensaje...">
+                    <button class="btn-send" id="sendMessage">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <div class="online-users">
+                <i class="fas fa-users"></i>
+                <span id="onlineCount">24</span> jugadores conectados
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Notification -->
+    <div id="chatNotification" class="chat-notification">
+        <div class="notification-content">
+            <div class="notification-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="notification-text">
+                <div class="notification-username"></div>
+                <div class="notification-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Compite. Apuesta. <span class="text-neon">Gana con Habilidad.</span></h1>
+                    <p class="hero-subtitle">Descubre Score TRX: la plataforma de juegos donde los verdaderos jugadores apuestan con TRX, compiten en línea y se llevan todo.</p>
+                    <button class="btn btn-primary-red btn-lg cta-button">
+                        <i class="fas fa-rocket me-2"></i>
+                        Crear mi cuenta gratis
+                    </button>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual">
+                        <img src="images/games-collage.png" alt="Juegos disponibles" class="img-fluid floating-animation">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Storytelling Section -->
+    <section id="storytelling" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">¿Por qué Score TRX es diferente?</h2>
+                    <p class="section-text">Mientras otras plataformas se enfocan en la suerte, aquí la habilidad es lo que te hace ganar. Compite en tiempo real, apuesta con TRX y sube en la clasificación.</p>
+                    <p class="section-text">Y si eres desarrollador, gana hasta <span class="text-neon">50 veces más</span> que en plataformas tradicionales.</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-trophy text-neon"></i>
+                            <span>Habilidad sobre suerte</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-clock text-neon"></i>
+                            <span>Competencia en tiempo real</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line text-neon"></i>
+                            <span>Clasificaciones dinámicas</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="visual-container">
+                        <img src="images/games-collage.png" alt="Pantallas de juegos" class="img-fluid rounded-3 shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="juegos" class="py-5 bg-dark-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Elige tu reto. <span class="text-neon">Demuestra tu nivel.</span></h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="game-card">
+                        <div class="game-icon">
+                            <img src="images/arcade-blitz-icon.png" alt="Arcade Blitz" class="img-fluid">
+                        </div>
+                        <h3 class="game-title">Arcade Blitz</h3>
+                        <p class="game-description">Esquiva obstáculos y gana en 2 minutos.</p>
+                        <div class="game-stats">
+                            <span class="stat"><i class="fas fa-users"></i> 1,234 jugadores</span>
+                            <span class="stat"><i class="fas fa-coins"></i> 50 TRX promedio</span>
+                        </div>
+                        <button class="btn btn-neon w-100">Jugar Ahora</button>
+                        <button class="btn btn-outline-neon w-100 mt-2 chat-game-btn" data-game="arcade-blitz">
+                            <i class="fas fa-comments me-2"></i>Chat del Juego
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="game-card">
+                        <div class="game-icon">
+                            <img src="images/stack-duel-icon.png" alt="Stack Duel" class="img-fluid">
+                        </div>
+                        <h3 class="game-title">Stack Duel</h3>
+                        <p class="game-description">Coloca bloques más rápido que tu oponente.</p>
+                        <div class="game-stats">
+                            <span class="stat"><i class="fas fa-users"></i> 892 jugadores</span>
+                            <span class="stat"><i class="fas fa-coins"></i> 75 TRX promedio</span>
+                        </div>
+                        <button class="btn btn-neon w-100">Jugar Ahora</button>
+                        <button class="btn btn-outline-neon w-100 mt-2 chat-game-btn" data-game="stack-duel">
+                            <i class="fas fa-comments me-2"></i>Chat del Juego
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="game-card">
+                        <div class="game-icon">
+                            <img src="images/mind-flip-icon.png" alt="Mind Flip" class="img-fluid">
+                        </div>
+                        <h3 class="game-title">Mind Flip</h3>
+                        <p class="game-description">Memoria y velocidad en duelos de 1v1.</p>
+                        <div class="game-stats">
+                            <span class="stat"><i class="fas fa-users"></i> 567 jugadores</span>
+                            <span class="stat"><i class="fas fa-coins"></i> 100 TRX promedio</span>
+                        </div>
+                        <button class="btn btn-neon w-100">Jugar Ahora</button>
+                        <button class="btn btn-outline-neon w-100 mt-2 chat-game-btn" data-game="mind-flip">
+                            <i class="fas fa-comments me-2"></i>Chat del Juego
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-neon btn-lg">Ver todos los juegos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Únete a la <span class="text-neon">Comunidad</span></h2>
+                <p class="section-text">Conecta con otros jugadores, comparte estrategias y debate sobre los juegos en tiempo real.</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="community-stats">
+                        <div class="row g-4 text-center">
+                            <div class="col-md-4">
+                                <div class="stat-card">
+                                    <i class="fas fa-users stat-icon"></i>
+                                    <h3 class="stat-number">2,847</h3>
+                                    <p class="stat-label">Jugadores Activos</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card">
+                                    <i class="fas fa-comments stat-icon"></i>
+                                    <h3 class="stat-number">15,692</h3>
+                                    <p class="stat-label">Mensajes Hoy</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card">
+                                    <i class="fas fa-trophy stat-icon"></i>
+                                    <h3 class="stat-number">1,234</h3>
+                                    <p class="stat-label">Partidas Jugadas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary-red btn-lg" id="openChatBtn">
+                            <i class="fas fa-comments me-2"></i>
+                            Abrir Chat Comunitario
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRX Betting Section -->
+    <section id="trx-betting" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Apuesta en cada partida y <span class="text-red">gana en TRX.</span></h2>
+                    <p class="section-text">Cada juego es una apuesta directa: el ganador se lo lleva todo. Juega con TRX de forma rápida, segura y sin tarifas ocultas. Conecta tu wallet o regístrate con redes sociales.</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <img src="images/metamask-icon.png" alt="MetaMask" class="feature-icon">
+                            <div>
+                                <h4>Compatible con Metamask y TronLink</h4>
+                                <p>Conecta tu wallet favorita</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-box">
+                            <img src="images/security-icon.png" alt="Seguridad" class="feature-icon">
+                            <div>
+                                <h4>Seguridad patentada</h4>
+                                <p>Protege tus fondos con tecnología avanzada</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-box">
+                            <img src="images/browser-icon.png" alt="Navegador" class="feature-icon">
+                            <div>
+                                <h4>Sin descargas, 100% desde navegador</h4>
+                                <p>Juega directamente desde tu navegador</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="trx-visual">
+                        <div class="trx-card">
+                            <div class="trx-header">
+                                <h3>Apuesta Actual</h3>
+                                <span class="trx-amount">250 TRX</span>
+                            </div>
+                            <div class="trx-body">
+                                <div class="player">
+                                    <span class="player-name">Tú</span>
+                                    <span class="player-bet">125 TRX</span>
+                                </div>
+                                <div class="vs">VS</div>
+                                <div class="player">
+                                    <span class="player-name">Oponente</span>
+                                    <span class="player-bet">125 TRX</span>
+                                </div>
+                            </div>
+                            <div class="trx-footer">
+                                <span class="winner-takes">El ganador se lleva todo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta-section" class="py-5 cta-background">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2 class="cta-title">¿Listo para jugar con los mejores?</h2>
+                    <p class="cta-subtitle">Empieza ahora y demuestra de qué estás hecho.</p>
+                    
+                    <button class="btn btn-primary-red btn-lg cta-button mb-4">
+                        <i class="fas fa-gamepad me-2"></i>
+                        Regístrate y comienza a ganar
+                    </button>
+                    
+                    <div class="social-login">
+                        <p class="mb-3">O inicia sesión con:</p>
+                        <div class="social-buttons">
+                            <button class="btn btn-social btn-google">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                            <button class="btn btn-social btn-facebook">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                            <button class="btn btn-social btn-wallet">
+                                
+                                <i class="fas fa-wallet"></i> Wallet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section id="trust" class="py-5 bg-dark-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Confianza que se nota</h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <img src="images/trust-icon.png" alt="Tecnología patentada" class="trust-icon">
+                        <h4>Tecnología con patente de seguridad</h4>
+                        <p>Protección avanzada para tus fondos</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <i class="fas fa-hand-holding-usd trust-icon-fa"></i>
+                        <h4>Sin comisiones ocultas</h4>
+                        <p>Transparencia total en cada transacción</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt trust-icon-fa"></i>
+                        <h4>Plataforma auditada y transparente</h4>
+                        <p>Verificada por expertos en seguridad</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="trust-item">
+                        <i class="fas fa-bolt trust-icon-fa"></i>
+                        <h4>Recompensas directas, sin intermediarios</h4>
+                        <p>Recibe tus ganancias al instante</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <img src="images/logo.png" alt="El Juego del TRX" height="40" class="mb-3">
+                    <p class="footer-text">La plataforma de juegos donde la habilidad es lo que cuenta. Compite, apuesta y gana con TRX.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Juegos</h5>
+                    <ul class="footer-links">
+                        <li><a href="#juegos">Arcade Blitz</a></li>
+                        <li><a href="#juegos">Stack Duel</a></li>
+                        <li><a href="#juegos">Mind Flip</a></li>
+                        <li><a href="#juegos">Ver todos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Soporte</h5>
+                    <ul class="footer-links">
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="#soporte">Soporte</a></li>
+                        <li><a href="#registro">Registro</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="terminos.html">Términos y condiciones</a></li>
+                        <li><a href="privacidad.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Síguenos</h5>
+                    <div class="social-links">
+                        <a href="https://x.com/RiveronCash" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright">&copy; 2025 Score TRX. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="powered-by">Powered by <span class="text-neon">TRX</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script-with-chat.js"></script>
+</body>
+</html>
+

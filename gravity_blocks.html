@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Milk - Gravity Blocks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .balance {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-connect {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-login {
+            background: #9C27B0;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .game-section {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .chat-section {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .game-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .game-description {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .game-image {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="20" height="20" fill="%23ff6b6b" opacity="0.8"/><rect x="35" y="15" width="20" height="20" fill="%234ecdc4" opacity="0.8"/><rect x="60" y="20" width="20" height="20" fill="%2345b7d1" opacity="0.8"/><rect x="20" y="35" width="20" height="20" fill="%2396ceb4" opacity="0.8"/><rect x="45" y="40" width="20" height="20" fill="%23feca57" opacity="0.8"/><rect x="70" y="45" width="20" height="20" fill="%23ff9ff3" opacity="0.8"/></svg>') center/cover;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn-play {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-practice {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-settings {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-play:hover, .btn-practice:hover, .btn-settings:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-section {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+
+        .leaderboard {
+            margin-top: 20px;
+        }
+
+        .leaderboard h3 {
+            margin-bottom: 15px;
+            color: #4ecdc4;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 5px;
+            border-radius: 8px;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #feca57;
+        }
+
+        .score {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chat-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-tab {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-tab.active {
+            background: #4ecdc4;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .discord-btn {
+            background: #7289da;
+        }
+
+        .telegram-btn {
+            background: #0088cc;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .sidebar, .chat-section {
+                width: 100%;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .search-container {
+                order: 3;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .game-title {
+                font-size: 36px;
+            }
+
+            .game-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' fill='%234CAF50' rx='8'/><text x='20' y='28' text-anchor='middle' fill='white' font-size='24' font-weight='bold'>SM</text></svg>" alt="Score Milk Logo">
+            <span class="logo-text">Score Milk</span>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar">
+        </div>
+        
+        <div class="user-controls">
+            <div class="balance">0.0000 Balance</div>
+            <button class="btn btn-connect">Conectar</button>
+            <button class="btn btn-login">Iniciar Sesión</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">14,547</div>
+                    <div class="stat-label">Total Partidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$8.1K</div>
+                    <div class="stat-label">Total Ganado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1,355</div>
+                    <div class="stat-label">Total Jugadores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">294</div>
+                    <div class="stat-label">Nuevos Jugadores</div>
+                </div>
+            </div>
+
+            <div class="leaderboard">
+                <h3>Mejores Jugadores</h3>
+                <div class="leaderboard-item">
+                    <span class="rank">#1</span>
+                    <span class="score">31,200</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="rank">#2</span>
+                    <span class="score">29,400</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="rank">#3</span>
+                    <span class="score">26,900</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="rank">#4</span>
+                    <span class="score">23,800</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="rank">#5</span>
+                    <span class="score">23,500</span>
+                </div>
+            </div>
+
+            <div class="social-buttons">
+                <button class="social-btn discord-btn">Discord</button>
+                <button class="social-btn telegram-btn">Telegram</button>
+            </div>
+        </aside>
+
+        <main class="game-section">
+            <h1 class="game-title">GRAVITY BLOCKS</h1>
+            
+            <p class="game-description">
+                "Gravity Blocks" es un emocionante y dinámico juego de rompecabezas que te mantendrá al borde de tu asiento! En este emocionante giro del clásico Tetris, experimentarás la fuerza de la gravedad moldeando cada uno de tus movimientos. Mientras los bloques descienden desde arriba, tu tarea es rotar y posicionar estratégicamente para crear líneas horizontales completas.
+            </p>
+
+            <div class="game-image">
+                <span>GRAVITY BLOCKS</span>
+            </div>
+
+            <div class="game-buttons">
+                <button class="btn-play">▶ PRÁCTICA</button>
+                <button class="btn-practice">⚙ CONFIGURACIÓN</button>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">Arcade</div>
+                    <div class="stat-label">Modo de Juego</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Clasificado</div>
+                    <div class="stat-label">Tipo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Puntuación Alta</div>
+                    <div class="stat-label">Objetivo</div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="chat-section">
+            <div class="chat-header">
+                <h3>Chat</h3>
+                <div class="chat-tabs">
+                    <button class="chat-tab active">Chat</button>
+                    <button class="chat-tab">Amigos</button>
+                    <button class="chat-tab">Invitados</button>
+                    <button class="chat-tab">Lobby</button>
+                </div>
+            </div>
+
+            <div class="chat-messages">
+                <div class="chat-message">
+                    <strong>f7b...12f:</strong> ¿Uso dinero para jugar?
+                </div>
+                <div class="chat-message">
+                    <strong>Blackmila:</strong> meti o trx o mtc o even btc
+                </div>
+                <div class="chat-message">
+                    <strong>niko:</strong> metis majorly but sometimes use trx during tournaments
+                </div>
+            </div>
+
+            <input type="text" class="chat-input" placeholder="Debes iniciar sesión para usar el chat">
+        </aside>
+    </div>
+
+    <script>
+        // Funcionalidad básica para los botones
+        document.querySelector('.btn-play').addEventListener('click', function() {
+            alert('¡Iniciando práctica de Gravity Blocks!');
+        });
+
+        document.querySelector('.btn-practice').addEventListener('click', function() {
+            alert('Abriendo configuración del juego...');
+        });
+
+        // Funcionalidad para las pestañas del chat
+        document.querySelectorAll('.chat-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Funcionalidad para los botones sociales
+        document.querySelector('.discord-btn').addEventListener('click', function() {
+            window.open('https://discord.gg/scoremilk', '_blank');
+        });
+
+        document.querySelector('.telegram-btn').addEventListener('click', function() {
+            window.open('https://t.me/scoremilk', '_blank');
+        });
+
+        // Animación de entrada
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Efecto de partículas en el fondo
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = '#4ecdc4';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.opacity = '0.6';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = '-10px';
+            particle.style.zIndex = '-1';
+            
+            document.body.appendChild(particle);
+            
+            const animation = particle.animate([
+                { transform: 'translateY(0px)', opacity: 0.6 },
+                { transform: `translateY(${window.innerHeight + 10}px)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                easing: 'linear'
+            });
+            
+            animation.onfinish = () => particle.remove();
+        }
+
+        // Crear partículas cada cierto tiempo
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html>
+
