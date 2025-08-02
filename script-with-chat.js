@@ -63,13 +63,13 @@ class ChatSystem {
         this.messages.general = [
             {
                 username: 'GameMaster',
-                text: '¡Bienvenidos al chat de Score Milk! 🎮',
+                text: '¡Bienvenidos al chat de Score TRX! 🎮',
                 time: this.getTimeString(-30),
                 isSystem: true
             },
             {
                 username: 'CryptoGamer',
-                text: '¿Alguien ha probado el nuevo Arcade Blitz? Está increíble!',
+                text: '¿Alguien ha probado el nuevo Tetris? Está increíble!',
                 time: this.getTimeString(-25),
                 isOwn: false
             },
